@@ -1,42 +1,49 @@
-function applyMask(input, mask) {
+function applyMask(input, mask, errorMessage) {
   let maskedValue = '';
   let inputIndex = 0;
   for (let i = 0; i < mask.length; i++) {
     if (mask[i] === '#') {
-      maskedValue += input.value[inputIndex] || '';
-      inputIndex++;
+      if (input.value[inputIndex]) {
+        maskedValue += input.value[inputIndex];
+        inputIndex++;
+      } else {
+        input.setCustomValidity(errorMessage);
+        input.reportValidity();
+        return;
+      }
     } else {
       maskedValue += mask[i];
     }
   }
   input.value = maskedValue;
+  input.setCustomValidity('');
 }
 
-function addMaskedInput(field, mask) {
+function addMaskedInput(field, mask, errorMessage) {
   field.addEventListener('input', (event) => {
-    applyMask(event.target, mask);
+    applyMask(event.target, mask, errorMessage);
   });
 }
 
-function addMaskedPhoneInput(field) {
+function addMaskedPhoneInput(field, errorMessage) {
   const phoneMask = '(###) ###-####';
-  addMaskedInput(field, phoneMask);
+  addMaskedInput(field, phoneMask, errorMessage);
 }
 
-function addMaskedDateInput(field) {
+function addMaskedDateInput(field, errorMessage) {
   const dateMask = '##/##/####';
-  addMaskedInput(field, dateMask);
+  addMaskedInput(field, dateMask, errorMessage);
 }
 
-function addMaskedCurrencyInput(field) {
+function addMaskedCurrencyInput(field, errorMessage) {
   const currencyMask = '$###,###,###.##';
-  addMaskedInput(field, currencyMask);
+  addMaskedInput(field, currencyMask, errorMessage);
 }
 
-function addDynamicMaskedInput(field, maskGenerator) {
+function addDynamicMaskedInput(field, maskGenerator, errorMessage) {
   field.addEventListener('input', (event) => {
     const mask = maskGenerator(event.target.value);
-    applyMask(event.target, mask);
+    applyMask(event.target, mask, errorMessage);
   });
 }
 
