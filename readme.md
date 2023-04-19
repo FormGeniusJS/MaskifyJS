@@ -6,12 +6,6 @@ MaskifyJS is a lightweight JavaScript library for adding input masks to HTML for
 
 You can include the MaskifyJS library in your project using either a CDN or by downloading and including the library file in your project.
 
-### CDN
-
-```html
-<script src="https://unpkg.com/maskifyjs/dist/maskifyjs.min.js"></script>
-```
-
 ### Download
 Download the latest release from the GitHub repository and include it in your project:
 
